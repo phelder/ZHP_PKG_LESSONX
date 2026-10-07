@@ -74,14 +74,12 @@ annotate entity ZC_Reservation_EP with
   @UI.lineItem: [
     { position: 50, label: 'Status' },
     { position: 90, type: #FOR_ACTION, dataAction: 'confirm', label: 'Confirm' },
-    { position: 100, type: #FOR_ACTION, dataAction: 'cancel', label: 'Cancel' },
-    { position: 200, type: #FOR_ACTION, dataAction: 'poke', label: 'Pika' }
+    { position: 100, type: #FOR_ACTION, dataAction: 'cancel', label: 'Cancel' }
   ]
   @UI.identification: [
     { position: 60, label: 'Status' },
     { position: 110, type: #FOR_ACTION, dataAction: 'confirm', label: 'Confirm' },
-    { position: 120, type: #FOR_ACTION, dataAction: 'cancel', label: 'Cancel' },
-    { position: 200, type: #FOR_ACTION, dataAction: 'poke', label: 'POka' }
+    { position: 120, type: #FOR_ACTION, dataAction: 'cancel', label: 'Cancel' }
   ]
   @UI.selectionField: [
     { position: 10 }

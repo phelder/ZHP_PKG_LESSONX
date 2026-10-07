@@ -35,7 +35,6 @@ etag master LocalLastChangedAt
 
   action ( features : instance, authorization : update ) confirm result [1] $self;
   action ( features : instance, authorization : update ) cancel result [1] $self;
-  action ( features : instance, authorization : update ) poke result [1] $self;
 
 
   determination setInitialStatus on modify { create; }

@@ -27,8 +27,6 @@ CLASS lhc_Reservation DEFINITION INHERITING FROM cl_abap_behavior_handler.
 
     METHODS validateFee FOR VALIDATE ON SAVE
        keys FOR Reservation~validateFee.
-    METHODS poke FOR MODIFY
-      keys FOR ACTION Reservation~poke RESULT result.
     METHODS setResponsibleUser FOR DETERMINE ON MODIFY
       keys FOR Reservation~setResponsibleUser.
 
@@ -340,27 +338,6 @@ CLASS lhc_Reservation IMPLEMENTATION.
         ) TO failed-reservation.
       ENDIF.
 
-    ENDLOOP.
-
-  ENDMETHOD.
-
-  METHOD poke.
-
-    READ ENTITIES OF ZR_Reservation_ep IN LOCAL MODE
-    ENTITY Reservation
-    ALL FIELDS
-    WITH CORRESPONDING #( keys )
-    RESULT DATA(reservations).
-
-    LOOP AT reservations INTO DATA(reservation).
-        APPEND VALUE #(
-            %tky = reservation-%tky
-            %msg = new_message_with_text(
-                severity = if_abap_behv_message=>severity-success
-                text     = |Hi { reservation-CustomerName }|
-            )
-
-        ) TO reported-reservation.
     ENDLOOP.
 
   ENDMETHOD.

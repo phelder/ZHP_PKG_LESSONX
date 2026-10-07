@@ -17,7 +17,6 @@ use etag
 
   use action confirm;
   use action cancel;
-  use action poke;
 
   use association _Participants { create; with draft; }
 }
