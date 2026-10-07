@@ -83,6 +83,12 @@ CLASS lhc_Reservation IMPLEMENTATION.
 
   METHOD get_instance_authorizations.
 
+    IF requested_authorizations-%update <> if_abap_behv=>mk-on
+      AND requested_authorizations-%action-Edit <> if_abap_behv=>mk-on
+      AND requested_authorizations-%delete <> if_abap_behv=>mk-on.
+      RETURN.
+    ENDIF.
+
     READ ENTITIES OF ZR_Reservation_EP IN LOCAL MODE
       ENTITY Reservation
         FIELDS ( ResponsibleUser )
@@ -95,30 +101,38 @@ CLASS lhc_Reservation IMPLEMENTATION.
 
     LOOP AT reservations INTO DATA(reservation).
 
+      DATA(is_responsible) = xsdbool( reservation-ResponsibleUser = current_user ).
+
       APPEND VALUE #(
           %tky = reservation-%tky
       ) TO result ASSIGNING FIELD-SYMBOL(<row>).
 
       IF requested_authorizations-%update = if_abap_behv=>mk-on.
-        IF reservation-ResponsibleUser = current_user.
+        <row>-%update = COND #(
+          WHEN is_responsible = abap_true THEN if_abap_behv=>auth-allowed
+          ELSE if_abap_behv=>auth-unauthorized ).
+      ENDIF.
 
-          <row>-%update = if_abap_behv=>auth-allowed.
-
-        ELSE.
-          <row>-%update = if_abap_behv=>auth-unauthorized.
-
-          APPEND VALUE #(
-                %tky = reservation-%tky
-                %msg = new_message_with_text(
-                severity = if_abap_behv_message=>severity-error
-                text     = 'You are not responsible for this reservation'
-                )
-            ) TO reported-reservation.
-        ENDIF.
+      IF requested_authorizations-%action-Edit = if_abap_behv=>mk-on.
+        <row>-%action-Edit = COND #(
+          WHEN is_responsible = abap_true THEN if_abap_behv=>auth-allowed
+          ELSE if_abap_behv=>auth-unauthorized ).
       ENDIF.
 
       IF requested_authorizations-%delete = if_abap_behv=>mk-on.
-        <row>-%delete = if_abap_behv=>auth-allowed.
+        <row>-%delete = COND #(
+          WHEN is_responsible = abap_true THEN if_abap_behv=>auth-allowed
+          ELSE if_abap_behv=>auth-unauthorized ).
+      ENDIF.
+
+      IF is_responsible = abap_false.
+        APPEND VALUE #(
+          %tky = reservation-%tky
+          %msg = new_message_with_text(
+            severity = if_abap_behv_message=>severity-error
+            text     = 'You are not responsible for this reservation'
+          )
+        ) TO reported-reservation.
       ENDIF.
 
     ENDLOOP.
@@ -133,6 +147,10 @@ CLASS lhc_Reservation IMPLEMENTATION.
 
     IF requested_authorizations-%update = if_abap_behv=>mk-on.
       result-%update = if_abap_behv=>auth-allowed.
+    ENDIF.
+
+    IF requested_authorizations-%action-Edit = if_abap_behv=>mk-on.
+      result-%action-Edit = if_abap_behv=>auth-allowed.
     ENDIF.
 
     IF requested_authorizations-%delete = if_abap_behv=>mk-on.

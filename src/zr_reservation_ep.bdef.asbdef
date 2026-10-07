@@ -14,7 +14,7 @@ etag master LocalLastChangedAt
   update;
   delete;
 
-  association _Participants { create; with draft; }
+  association _Participants { create ( authorization : update ); with draft; }
 
   field ( numbering : managed, readonly ) Uuid;
 
