@@ -1,0 +1,11 @@
+@EndUserText.label: 'DCL'
+@MappingRole: true
+define role ZR_RESERVATION_PART_EP {
+    grant
+        select
+            on
+                ZR_RESERVATION_PART_EP
+                    where _Reservation.ResponsibleUser = aspect user;
+                        
+                     
+}

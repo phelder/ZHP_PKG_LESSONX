@@ -1,0 +1,6 @@
+@EndUserText.label: 'service def'
+define service ZUI_RESERVATION_EP {
+  expose ZC_Reservation_EP      as Reservations;
+  expose ZC_Reservation_Part_EP as Participants;
+  expose I_CurrencyStdVH        as Currencies;
+}

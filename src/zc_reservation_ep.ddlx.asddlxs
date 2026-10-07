@@ -1,0 +1,122 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: {
+  typeName: 'Reservation',
+  typeNamePlural: 'Reservations',
+  title: {
+    type: #STANDARD,
+    value: 'ReservationNo'
+  }
+}
+
+annotate entity ZC_Reservation_EP with
+{
+  @UI.facet: [
+  {
+    id: 'Reservation',
+    purpose: #STANDARD,
+    type: #IDENTIFICATION_REFERENCE,
+    label: 'Reservation',
+    position: 10
+  },
+  {
+    id: 'Participants',
+    purpose: #STANDARD,
+    type: #LINEITEM_REFERENCE,
+    label: 'Participants',
+    position: 20,
+    targetElement: '_Participants'
+  }
+]
+  @UI.lineItem: [
+    { position: 10, label: 'Reservation' }
+  ]
+  @UI.identification: [
+    { position: 10, label: 'Reservation' }
+  ]
+  ReservationNo;
+
+  @UI.lineItem: [
+    { position: 20, label: 'Customer' }
+  ]
+  @UI.identification: [
+    { position: 20, label: 'Customer' }
+  ]
+  @UI.selectionField: [
+    { position: 30 }
+  ]
+  CustomerName;
+
+  @UI.identification: [
+    { position: 30, label: 'Customer Email' }
+  ]
+  CustomerEmail;
+
+  @UI.lineItem: [
+    { position: 30, label: 'Workshop' }
+  ]
+  @UI.identification: [
+    { position: 40, label: 'Workshop' }
+  ]
+  WorkshopCode;
+
+  @UI.lineItem: [
+    { position: 40, label: 'Reservation Date' }
+  ]
+  @UI.identification: [
+    { position: 50, label: 'Reservation Date' }
+  ]
+  @UI.selectionField: [
+    { position: 20 }
+  ]
+  ReservationDate;
+
+  @UI.lineItem: [
+    { position: 50, label: 'Status' },
+    { position: 90, type: #FOR_ACTION, dataAction: 'confirm', label: 'Confirm' },
+    { position: 100, type: #FOR_ACTION, dataAction: 'cancel', label: 'Cancel' },
+    { position: 200, type: #FOR_ACTION, dataAction: 'poke', label: 'Pika' }
+  ]
+  @UI.identification: [
+    { position: 60, label: 'Status' },
+    { position: 110, type: #FOR_ACTION, dataAction: 'confirm', label: 'Confirm' },
+    { position: 120, type: #FOR_ACTION, dataAction: 'cancel', label: 'Cancel' },
+    { position: 200, type: #FOR_ACTION, dataAction: 'poke', label: 'POka' }
+  ]
+  @UI.selectionField: [
+    { position: 10 }
+  ]
+  Status;
+
+  @UI.lineItem: [
+    { position: 60, label: 'Fee' }
+  ]
+  @UI.identification: [
+    { position: 70, label: 'Fee' }
+  ]
+  Fee;
+
+//  @UI.lineItem: [
+//    { position: 70, label: 'Currency' }
+//  ]
+//  @UI.identification: [
+//    { position: 80, label: 'Currency' }
+//  ]
+  @UI.selectionField: [
+    { position: 30 }
+  ]
+  CurrencyCode;
+
+  @UI.lineItem: [
+    { position: 80, label: 'Responsible User' }
+  ]
+  @UI.identification: [
+    { position: 90, label: 'Responsible User' }
+  ]
+  ResponsibleUser;
+
+  @UI.identification: [
+    { position: 100, label: 'Notes' }
+  ]
+  Notes;
+}

@@ -1,0 +1,32 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_Reservation_EP alias Reservation
+use etag
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use action confirm;
+  use action cancel;
+  use action poke;
+
+  use association _Participants { create; with draft; }
+}
+
+define behavior for ZC_Reservation_Part_EP alias Participant
+use etag
+{
+  use update;
+  use delete;
+
+  use association _Reservation { with draft; }
+}

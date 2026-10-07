@@ -1,0 +1,5 @@
+CLASS zbp_r_reservation_ep DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zr_reservation_ep.
+ENDCLASS.
+
+CLASS zbp_r_reservation_ep IMPLEMENTATION.
+ENDCLASS.

@@ -1,0 +1,11 @@
+@EndUserText.label: 'cds dcl'
+@MappingRole: true
+define role ZR_RESERVATION_EP {
+    grant
+        select
+            on
+                ZR_RESERVATION_EP
+                    where
+                        ResponsibleUser = aspect user;
+                        
+}

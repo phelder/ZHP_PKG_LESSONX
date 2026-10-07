@@ -1,0 +1,87 @@
+@Metadata.layer: #CORE
+
+@UI.headerInfo: {
+  typeName: 'Participant',
+  typeNamePlural: 'Participants',
+  title: {
+    type: #STANDARD,
+    value: 'ParticipantName'
+  },
+  description: {
+    type: #STANDARD,
+    value: 'ParticipantNo'
+  }
+}
+
+annotate entity ZC_Reservation_Part_EP with
+{
+  @UI.facet: [
+    {
+      id: 'ParticipantDetails',
+      purpose: #STANDARD,
+      type: #IDENTIFICATION_REFERENCE,
+      label: 'Participant Details',
+      position: 10
+    }
+  ]
+
+
+  @UI.lineItem: [
+    {
+      position: 10,
+      label: 'Participant No.'
+    }
+  ]
+  @UI.identification: [
+    {
+      position: 10,
+      label: 'Participant No.'
+    }
+  ]
+  ParticipantNo;
+
+
+  @UI.lineItem: [
+    {
+      position: 20,
+      label: 'Name'
+    }
+  ]
+  @UI.identification: [
+    {
+      position: 20,
+      label: 'Name'
+    }
+  ]
+  ParticipantName;
+
+
+  @UI.lineItem: [
+    {
+      position: 30,
+      label: 'Email'
+    }
+  ]
+  @UI.identification: [
+    {
+      position: 30,
+      label: 'Email'
+    }
+  ]
+  ParticipantEmail;
+
+
+  @UI.lineItem: [
+    {
+      position: 40,
+      label: 'Role'
+    }
+  ]
+  @UI.identification: [
+    {
+      position: 40,
+      label: 'Role'
+    }
+  ]
+  ParticipantRole;
+}

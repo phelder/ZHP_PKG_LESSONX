@@ -1,0 +1,115 @@
+managed implementation in class zbp_r_reservation_ep unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZR_RESERVATION_EP alias Reservation
+persistent table zresv_ep
+draft table zdresv_ep
+lock master
+total etag LastChangedAt
+authorization master ( global, instance )
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+
+  association _Participants { create; with draft; }
+
+  field ( numbering : managed, readonly ) Uuid;
+
+  field ( readonly )
+  ResponsibleUser,
+  Status,
+  LocalCreatedBy,
+  LocalCreatedAt,
+  LocalLastChangedBy,
+  LocalLastChangedAt,
+  LastChangedAt;
+
+
+  field ( mandatory:create, readonly:update ) ReservationNo;
+//  field ( readonly:update ) ResponsibleUser, Status;
+  field ( features : instance ) Fee, CurrencyCode;
+
+
+  action ( features : instance, authorization : update ) confirm result [1] $self;
+  action ( features : instance, authorization : update ) cancel result [1] $self;
+  action ( features : instance, authorization : update ) poke result [1] $self;
+
+
+  determination setInitialStatus on modify { create; }
+  determination setResponsibleUser on modify { create; }
+
+
+  validation validateCustomer on save { create; field CustomerName; }
+  validation validateDate on save { create; field ReservationDate; }
+  validation validateFee on save { create; field Fee, CurrencyCode; }
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+
+  draft determine action Prepare
+  {
+    validation validateCustomer;
+    validation validateDate;
+    validation validateFee;
+  }
+
+  mapping for zresv_ep
+    {
+      Uuid               = uuid;
+      ReservationNo      = reservation_no;
+      CustomerName       = customer_name;
+      CustomerEmail      = customer_email;
+      WorkshopCode       = workshop_code;
+      ReservationDate    = reservation_date;
+      Status             = status;
+      Fee                = fee;
+      CurrencyCode       = currency_code;
+      Notes              = notes;
+      ResponsibleUser    = responsible_user;
+      LocalCreatedBy     = local_created_by;
+      LocalCreatedAt     = local_created_at;
+      LocalLastChangedBy = local_last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+      LastChangedAt      = last_changed_at;
+    }
+
+}
+
+define behavior for ZR_Reservation_Part_EP alias Participant
+persistent table zrespart_Ep
+draft table zdrespart_Ep
+authorization dependent by _Reservation
+lock dependent by _Reservation
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+
+  field ( numbering : managed, readonly )
+    ParticipantUuid;
+
+  field ( readonly )
+    ReservationUuid,
+    LocalLastChangedAt;
+
+  field ( mandatory:create, readonly:update )
+    ParticipantNo;
+
+  association _Reservation { with draft; }
+
+  mapping for zrespart_ep
+  {
+    ParticipantUuid    = participant_uuid;
+    ReservationUuid    = reservation_uuid;
+    ParticipantNo      = participant_no;
+    ParticipantName    = participant_name;
+    ParticipantEmail   = participant_email;
+    ParticipantRole    = participant_role;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}

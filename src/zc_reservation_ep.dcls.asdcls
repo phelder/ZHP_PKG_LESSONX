@@ -1,0 +1,11 @@
+@EndUserText.label: 'DCL'
+@MappingRole: true
+define role ZC_RESERVATION_EP {
+    grant
+        select
+            on
+                ZC_RESERVATION_EP
+                    where
+                        inheriting conditions from entity ZR_RESERVATION_EP;
+                        
+}
